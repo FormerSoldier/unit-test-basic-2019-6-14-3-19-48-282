@@ -7,6 +7,8 @@ import ExpenseService.Project.ProjectType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
+
 class ExpenseServiceTest {
 
     @Test
@@ -53,14 +55,13 @@ class ExpenseServiceTest {
         Assertions.assertEquals(result,ExpenseType.OTHER_EXPENSE);
     }
 
-    @Test(expected = UnexpectedProjectTypeException.class)
+    @Test
     void should_throw_unexpected_project_exception_if_project_is_invalid() throws UnexpectedProjectTypeException{
         // given
         Project project = new Project(ProjectType.UNEXPECTED_PROJECT_TYPE,"unexpected_project");
 
-        // when
-        ExpenseService.getExpenseCodeByProjectTypeAndName(project);
-        // then
-        //Assertions.assertThrows(ExpenseService.class,UnexpectedProjectTypeException);
+        Assertions.assertThrows(UnexpectedProjectTypeException.class, () ->{
+           ExpenseService.getExpenseCodeByProjectTypeAndName(project);
+        });
     }
 }
